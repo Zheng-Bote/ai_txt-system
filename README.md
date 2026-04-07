@@ -30,29 +30,62 @@ graph TD
 
 ## Build
 
+This project uses the [Conan](https://conan.io/) package manager.
+
 ```bash
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+# 1. Install dependencies
+conan install . --output-folder=build --build=missing
+
+# 2. Configure and build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
 cmake --build build -j"$(nproc)"
 ```
 
 ## Usage
 
-### CLI
+### CLI (`ai_cli`)
+
+The CLI tool allows sending prompts directly to configured LLM providers.
 
 ```bash
-./build/ai_cli --provider ollama "Tell me a joke"
+./build/ai_cli [OPTIONS] <PROMPT>
 ```
 
-### Server
+**Options:**
+- `--provider <ollama|openrouter>`: Forces the use of a specific provider. If omitted, the system tries all providers in order (failover).
+- `--env <path>`: Specify a custom path to the environment file (default: `data/private.env`).
+- `--help, -h`: Show usage information.
+
+**Examples:**
+```bash
+# Direct prompt
+./build/ai_cli --provider ollama "What is C++23?"
+
+# Using stdin
+echo "Translate 'Hello' to German" | ./build/ai_cli
+```
+
+### Server (`ai_srv`)
+
+The microservice provides a REST API on port `18080`.
 
 ```bash
 ./build/ai_srv
 ```
 
-Post a prompt:
+**Endpoint:** `POST /api/v1/prompt`
+
+**Request Body (JSON):**
+- `prompt` (string): The text to process.
+- `provider` (string, optional): 'ollama' or 'openrouter'.
+
+**Headers:**
+- `X-LLM-Provider`: (optional) 'ollama' or 'openrouter'. Takes precedence over JSON body.
+
+**Example:**
 ```bash
 curl -X POST http://localhost:18080/api/v1/prompt \
      -H "Content-Type: application/json" \
      -H "X-LLM-Provider: openrouter" \
-     -d '{"prompt": "Hello"}'
+     -d '{"prompt": "Tell me a joke"}'
 ```

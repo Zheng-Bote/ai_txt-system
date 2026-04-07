@@ -7,7 +7,7 @@
  *
  * @file ai_cli.cpp
  * @brief Consolidated AI CLI implementation
- * @version 0.1.0
+ * @version 1.1.0
  * @date 2026-04-07
  *
  * @author ZHENG Robert (robert@hase-zheng.net)
@@ -23,6 +23,22 @@
 #include <vector>
 
 using namespace ai_txt;
+
+/**
+ * @brief Prints usage information.
+ */
+void print_usage(std::string_view program_name) {
+    std::println(std::cerr, "Usage: {} [OPTIONS] <PROMPT>", program_name);
+    std::println(std::cerr, "");
+    std::println(std::cerr, "Options:");
+    std::println(std::cerr, "  --provider <p>   Select LLM provider: 'ollama' or 'openrouter'.");
+    std::println(std::cerr, "                   If not specified, failover will use all available.");
+    std::println(std::cerr, "  --env <path>     Path to the .env file (default: data/private.env).");
+    std::println(std::cerr, "  --help, -h       Show this help message.");
+    std::println(std::cerr, "");
+    std::println(std::cerr, "Prompt:");
+    std::println(std::cerr, "  The prompt can be provided as trailing arguments or via stdin.");
+}
 
 /**
  * @brief Helper to collect LLMs for a specific prefix (e.g., OLLAMA_LLM_)
@@ -50,10 +66,17 @@ int main(int argc, char** argv) {
 
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
-        if (arg == "--provider" && i + 1 < argc) {
+        if ((arg == "--help" || arg == "-h")) {
+            print_usage(argv[0]);
+            return 0;
+        } else if (arg == "--provider" && i + 1 < argc) {
             std::string p = argv[++i];
             if (p == "ollama") preferred = ProviderType::Ollama;
             else if (p == "openrouter") preferred = ProviderType::OpenRouter;
+            else {
+                std::println(std::cerr, "Error: Unknown provider '{}'", p);
+                return 1;
+            }
         } else if (arg == "--env" && i + 1 < argc) {
             env_path = argv[++i];
         } else {

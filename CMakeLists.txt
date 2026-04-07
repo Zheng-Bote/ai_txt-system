@@ -1,10 +1,11 @@
-# cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+# conan install . --output-folder=build --build=missing
+# cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake
 # cmake --build build -j"$(nproc)"
 
 cmake_minimum_required(VERSION 3.28)
 project(ai_txt_system
-VERSION 1.0.0
-DESCRIPTION "Consolidated AI TXT System"
+VERSION 1.1.0
+DESCRIPTION "Consolidated AI TXT System with Conan"
 HOMEPAGE_URL "https://github.com/Zheng-Bote/ai_txt-system"
 LANGUAGES CXX)
 
@@ -13,27 +14,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include(FetchContent)
+# Ensure CMake finds Conan packages
+set(CONAN_GENERATORS_DIR "${CMAKE_BINARY_DIR}/build/Release/generators")
+if(NOT EXISTS "${CONAN_GENERATORS_DIR}")
+    set(CONAN_GENERATORS_DIR "${CMAKE_BINARY_DIR}/build/Debug/generators")
+endif()
+list(APPEND CMAKE_PREFIX_PATH "${CONAN_GENERATORS_DIR}")
 
-# 1. Asio (Standalone)
-FetchContent_Declare(
-    asio
-    GIT_REPOSITORY https://github.com/chriskohlhoff/asio.git
-    GIT_TAG        asio-1-30-2
-)
-FetchContent_MakeAvailable(asio)
-set(ASIO_INCLUDE_DIR ${asio_SOURCE_DIR}/asio/include)
-
-# 2. Crow (Microframework)
-FetchContent_Declare(
-    crow
-    GIT_REPOSITORY https://github.com/CrowCpp/Crow.git
-    GIT_TAG        master
-)
-FetchContent_MakeAvailable(crow)
-
+# Find Conan Packages
 find_package(CURL REQUIRED)
 find_package(nlohmann_json REQUIRED)
+find_package(Crow REQUIRED)
+find_package(asio REQUIRED)
 
 include_directories(include)
 
@@ -49,8 +41,8 @@ target_link_libraries(ai_srv PRIVATE
     CURL::libcurl 
     nlohmann_json::nlohmann_json 
     Crow::Crow
+    asio::asio
 )
-target_include_directories(ai_srv PRIVATE ${ASIO_INCLUDE_DIR})
 
 file(GENERATE OUTPUT "${CMAKE_BINARY_DIR}/libs.txt" 
      CONTENT "$<TARGET_PROPERTY:ai_srv,LINK_LIBRARIES>")

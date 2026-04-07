@@ -1,0 +1,12 @@
+[requires]
+libcurl/8.10.1
+nlohmann_json/3.11.3
+crowcpp-crow/1.2.0
+asio/1.29.0
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout

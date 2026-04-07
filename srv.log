@@ -1,0 +1,11 @@
+Starting Consolidated AI Server on port 18080...
+(2026-04-07 10:55:13) [INFO    ] Crow/master server is running at http://0.0.0.0:18080 using 6 threads
+(2026-04-07 10:55:13) [INFO    ] Call `app.loglevel(crow::LogLevel::Warning)` to hide Info level logs.
+(2026-04-07 10:55:15) [INFO    ] Closing acceptor. 0x56575d1a76d8
+(2026-04-07 10:55:15) [INFO    ] Closing IO service 0x56575d1a84e0
+(2026-04-07 10:55:15) [INFO    ] Closing IO service 0x56575d1a84e8
+(2026-04-07 10:55:15) [INFO    ] Closing IO service 0x56575d1a84f0
+(2026-04-07 10:55:15) [INFO    ] Closing IO service 0x56575d1a84f8
+(2026-04-07 10:55:15) [INFO    ] Closing IO service 0x56575d1a8500
+(2026-04-07 10:55:15) [INFO    ] Closing main IO service (0x56575d1a7698)
+(2026-04-07 10:55:15) [INFO    ] Exiting.

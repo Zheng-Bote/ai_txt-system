@@ -41,6 +41,22 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/cona
 cmake --build build -j"$(nproc)"
 ```
 
+## Docker deployment
+
+You can easily deploy `ai_srv` via Docker using the pre-built binary. The `data/Dockerfile` provides the build instructions.
+
+```bash
+# Build the image
+docker build -t ai_txt -f data/Dockerfile .
+
+# Run the container with a mounted configuration directory
+docker run -d \
+  --name ai_txt \
+  -p 18080:18080 \
+  -v /home/Docker/webapp/etc/ai:/webapp/etc/ai \
+  ai_txt
+```
+
 ## Usage
 
 ### CLI (`ai_cli`)
@@ -70,7 +86,11 @@ echo "Translate 'Hello' to German" | ./build/ai_cli
 The microservice provides a REST API on port `18080`.
 
 ```bash
+# Basic startup
 ./build/ai_srv
+
+# With custom environment file
+./build/ai_srv --env /path/to/private.env
 ```
 
 **Endpoint:** `POST /api/v1/prompt`

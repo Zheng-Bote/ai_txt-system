@@ -7,8 +7,8 @@
  *
  * @file ai_srv.cpp
  * @brief Consolidated AI Microservice implementation
- * @version 0.1.0
- * @date 2026-04-07
+ * @version 1.2.0
+ * @date 2026-04-12
  *
  * @author ZHENG Robert (robert@hase-zheng.net)
  * @copyright Copyright (c) 2026 ZHENG Robert
@@ -42,10 +42,18 @@ std::vector<std::string> collect_models(const std::map<std::string, std::string>
     return out;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     crow::SimpleApp app;
 
     std::string env_path = "data/private.env";
+    
+    // Parse command line arguments
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--env" && i + 1 < argc) {
+            env_path = argv[++i];
+        }
+    }
     auto config = load_config(env_path);
 
     // Prepare Manager (singleton-ish for the route)

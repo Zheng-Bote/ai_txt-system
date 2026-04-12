@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.28)
 project(ai_txt_system
-VERSION 1.1.0
+VERSION 1.2.0
 DESCRIPTION "Consolidated AI TXT System with Conan"
 HOMEPAGE_URL "https://github.com/Zheng-Bote/ai_txt-system"
 LANGUAGES CXX)

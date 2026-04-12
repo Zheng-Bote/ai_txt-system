@@ -229,7 +229,7 @@
           "fixed_version": "",
           "id": "SAFE",
           "severity": "NONE",
-          "summary": "No vulnerabilities found in ecosystem 'Debian'. Checked on 2026-04-07",
+          "summary": "No vulnerabilities found in ecosystem 'Debian'. Checked on 2026-04-12",
           "suppressed": false,
           "suppression_reason": ""
         }
@@ -250,7 +250,7 @@
           "fixed_version": "",
           "id": "SAFE",
           "severity": "NONE",
-          "summary": "No vulnerabilities found in ecosystem 'Debian'. Checked on 2026-04-07",
+          "summary": "No vulnerabilities found in ecosystem 'Debian'. Checked on 2026-04-12",
           "suppressed": false,
           "suppression_reason": ""
         }
@@ -366,10 +366,10 @@
   ],
   "header": {
     "project": {
-      "name": "AI_TXT-System",
+      "name": "AI-TxT",
       "workspace_root": "/home/zb_bamboo/DEV/__NEW__/CPP/ai_txt-system"
     },
-    "scan_date": "2026-04-07",
+    "scan_date": "2026-04-12",
     "schema_version": "1.2",
     "tool": {
       "author": "ZHENG Bote",

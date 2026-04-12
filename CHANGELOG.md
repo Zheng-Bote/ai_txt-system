@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-04-12
+
+### Added
+- **Docker Support**: Added `data/Dockerfile` for simple microservice deployment using pre-built binaries on an Ubuntu 25.10 base.
+- **Server Configuration**: `ai_srv` now accepts the `--env` parameter to specify the `.env` configuration file location dynamically.
+
 ## [1.1.0] - 2026-04-07
 
 ### Added

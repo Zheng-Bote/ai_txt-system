@@ -130,10 +130,10 @@
   ],
   "metadata": {
     "component": {
-      "name": "AI_TXT-System",
+      "name": "AI-TxT",
       "type": "application"
     },
-    "timestamp": "2026-04-07T13:57:01Z",
+    "timestamp": "2026-04-12T10:34:43Z",
     "tools": [
       {
         "name": "depdiscover",
@@ -142,7 +142,7 @@
       }
     ]
   },
-  "serialNumber": "urn:uuid:f9a11834-90fa-4e60-9f10-a9a87294e476",
+  "serialNumber": "urn:uuid:a2371d82-9aa8-4ba4-a5af-516c2be579c7",
   "specVersion": "1.4",
   "version": 1,
   "vulnerabilities": [

@@ -10,8 +10,8 @@
 | **License ID** | Apache-2.0 |
 | **File** | `ai_srv.cpp` |
 | **Description** | Consolidated AI Microservice implementation |
-| **Version** | 0.1.0 |
-| **Date** | 2026-04-07 |
+| **Version** | 1.2.0 |
+| **Date** | 2026-04-12 |
 | **Author** | ZHENG Robert (robert@hase-zheng.net) |
 | **Copyright** | Copyright (c) 2026 ZHENG Robert |
 | **License** | Apache-2.0 |

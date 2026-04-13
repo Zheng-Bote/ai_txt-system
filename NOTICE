@@ -1,0 +1,28 @@
+ai_txt-system
+Copyright 2026 ZHENG Robert
+
+This product includes software developed by third parties. The following components are bundled with this distribution:
+
+ - libcurl 8.10.1
+   License: MIT der libcurl-Distribution (siehe mitgelieferte Lizenzdatei)
+   Attribution: This product includes software developed by the curl project.
+
+ - nlohmann_json 3.11.3
+   License: MIT
+   Attribution: This product includes software developed by Niels Lohmann.
+
+ - crowcpp-crow 1.2.0
+   License: BSD-2-Clause
+   Attribution: This product includes software developed by the Crow project contributors.
+
+ - asio 1.29.0
+   License: Boost Software License 1.0
+   Attribution: This product includes software developed by the Asio authors.
+
+The full text of each component's license is included in this distribution under
+third_party/<component>/LICENSE or in the corresponding package directory.
+Where a NOTICE file or additional attribution was provided by the original
+author, those notices have been preserved.
+
+This product is distributed under the Apache License, Version 2.0.
+See the accompanying LICENSE file for the full Apache 2.0 license text.

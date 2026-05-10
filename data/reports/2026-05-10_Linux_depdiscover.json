@@ -300,7 +300,9 @@
           "suppression_reason": ""
         }
       ],
-      "headers": [],
+      "headers": [
+        "/usr/include/x86_64-linux-gnu/curl/curl.h"
+      ],
       "libraries": [],
       "licenses": [
         "curl"
@@ -375,6 +377,106 @@
       "source": "manifest",
       "type": "conan",
       "version": "1.29"
+    },
+    {
+      "cves": [
+        {
+          "fixed_version": "",
+          "id": "NOT-CHECKED",
+          "score": 0.0,
+          "severity": "UNKNOWN",
+          "summary": "Version unknown or latest, cannot query OSV",
+          "suppressed": false,
+          "suppression_reason": ""
+        }
+      ],
+      "headers": [],
+      "libraries": [],
+      "licenses": [
+        "UNKNOWN"
+      ],
+      "name": "Crow::Crow",
+      "source": "cmake_target",
+      "type": "cmake_target",
+      "version": "unknown"
+    },
+    {
+      "cves": [
+        {
+          "fixed_version": "",
+          "id": "SAFE",
+          "score": 0.0,
+          "severity": "NONE",
+          "summary": "No vulnerabilities found in ecosystem 'Debian'. Checked on 2026-05-10",
+          "suppressed": false,
+          "suppression_reason": ""
+        }
+      ],
+      "headers": [],
+      "libraries": [],
+      "licenses": [
+        "UNKNOWN"
+      ],
+      "name": "gh_update_checker::gh_update_checker",
+      "source": "cmake_target",
+      "type": "cmake_target",
+      "version": "v1.0.9"
+    },
+    {
+      "cves": [],
+      "headers": [],
+      "libraries": [
+        "libc.so.6"
+      ],
+      "licenses": [
+        "UNKNOWN"
+      ],
+      "name": "libc.so.6",
+      "source": "elf_scan",
+      "type": "system",
+      "version": ""
+    },
+    {
+      "cves": [],
+      "headers": [],
+      "libraries": [
+        "libgcc_s.so.1"
+      ],
+      "licenses": [
+        "UNKNOWN"
+      ],
+      "name": "libgcc_s.so.1",
+      "source": "elf_scan",
+      "type": "system",
+      "version": ""
+    },
+    {
+      "cves": [],
+      "headers": [],
+      "libraries": [
+        "libm.so.6"
+      ],
+      "licenses": [
+        "UNKNOWN"
+      ],
+      "name": "libm.so.6",
+      "source": "elf_scan",
+      "type": "system",
+      "version": ""
+    },
+    {
+      "cves": [],
+      "headers": [],
+      "libraries": [
+        "libstdc++.so.6"
+      ],
+      "licenses": [
+        "UNKNOWN"
+      ],
+      "name": "libstdc++.so.6",
+      "source": "elf_scan",
+      "type": "system",
+      "version": ""
     }
   ],
   "header": {

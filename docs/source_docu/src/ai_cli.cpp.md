@@ -10,7 +10,7 @@
 | **License ID** | Apache-2.0 |
 | **File** | `ai_cli.cpp` |
 | **Description** | Consolidated AI CLI implementation |
-| **Version** | 1.3.0 |
+| **Version** | 1.2.0 |
 | **Date** | 2026-05-10 |
 | **Author** | ZHENG Robert (robert@hase-zheng.net) |
 | **Copyright** | Copyright (c) 2026 ZHENG Robert |

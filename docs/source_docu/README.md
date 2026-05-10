@@ -8,6 +8,7 @@ This directory contains the automatically generated documentation for the projec
 ## [include Files](include/)
 
 - [llm_provider.hpp.md](include/llm_provider.hpp.md) - LLM Provider Interface and Implementations
+- [rz_config.hpp.md](include/rz_config.hpp.md) - Configuration template for CMake.
 
 ## [src Files](src/)
 

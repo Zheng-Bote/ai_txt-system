@@ -56,6 +56,90 @@
       "purl": "pkg:generic/asio@1.29",
       "type": "library",
       "version": "1.29"
+    },
+    {
+      "bom-ref": "pkg:generic/Crow::Crow@unknown",
+      "licenses": [
+        {
+          "license": {
+            "name": "UNKNOWN"
+          }
+        }
+      ],
+      "name": "Crow::Crow",
+      "purl": "pkg:generic/Crow::Crow@unknown",
+      "type": "library",
+      "version": "unknown"
+    },
+    {
+      "bom-ref": "pkg:generic/gh_update_checker::gh_update_checker@v1.0.9",
+      "licenses": [
+        {
+          "license": {
+            "name": "UNKNOWN"
+          }
+        }
+      ],
+      "name": "gh_update_checker::gh_update_checker",
+      "purl": "pkg:generic/gh_update_checker::gh_update_checker@v1.0.9",
+      "type": "library",
+      "version": "v1.0.9"
+    },
+    {
+      "bom-ref": "pkg:generic/libc.so.6@",
+      "licenses": [
+        {
+          "license": {
+            "name": "UNKNOWN"
+          }
+        }
+      ],
+      "name": "libc.so.6",
+      "purl": "pkg:generic/libc.so.6@",
+      "type": "library",
+      "version": ""
+    },
+    {
+      "bom-ref": "pkg:generic/libgcc_s.so.1@",
+      "licenses": [
+        {
+          "license": {
+            "name": "UNKNOWN"
+          }
+        }
+      ],
+      "name": "libgcc_s.so.1",
+      "purl": "pkg:generic/libgcc_s.so.1@",
+      "type": "library",
+      "version": ""
+    },
+    {
+      "bom-ref": "pkg:generic/libm.so.6@",
+      "licenses": [
+        {
+          "license": {
+            "name": "UNKNOWN"
+          }
+        }
+      ],
+      "name": "libm.so.6",
+      "purl": "pkg:generic/libm.so.6@",
+      "type": "library",
+      "version": ""
+    },
+    {
+      "bom-ref": "pkg:generic/libstdc++.so.6@",
+      "licenses": [
+        {
+          "license": {
+            "name": "UNKNOWN"
+          }
+        }
+      ],
+      "name": "libstdc++.so.6",
+      "purl": "pkg:generic/libstdc++.so.6@",
+      "type": "library",
+      "version": ""
     }
   ],
   "metadata": {
@@ -63,7 +147,7 @@
       "name": "AI cli/Srv Tool",
       "type": "application"
     },
-    "timestamp": "2026-05-10T11:00:56Z",
+    "timestamp": "2026-05-10T11:37:07Z",
     "tools": [
       {
         "name": "depdiscover",
@@ -72,7 +156,7 @@
       }
     ]
   },
-  "serialNumber": "urn:uuid:037d2573-bc42-4b16-9b1a-a00e64a1d08b",
+  "serialNumber": "urn:uuid:170cff26-148b-4c90-9a97-48f133a612ba",
   "specVersion": "1.4",
   "version": 1,
   "vulnerabilities": [

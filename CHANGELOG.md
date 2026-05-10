@@ -11,11 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Task-Based Model Selection**: The system now automatically classifies prompts into tasks (`Coding`, `Translation`, `General`) and prioritizes models optimized for those tasks.
 - **New LLM Providers**: Added support for **NVIDIA** and **GROQ** providers, including specialized model scoring and failover integration.
 - **Intelligent Scoring**: Introduced a scoring mechanism in `ProviderManager` to rank model candidates based on task relevance, provider priority, and user preference.
+- **Update Check (CLI)**: Integrated `gh-update-checker` to automatically check for newer versions on GitHub when running `ai_cli --version`.
+- **System API (Server)**: New endpoint `GET /system/check-update` for remote version monitoring and update notification.
+- **Centralized Configuration**: Integrated `rz_config.hpp` for unified project metadata (version, author, repository).
 
 ### Changed
 - **Enhanced Failover**: Refactored the request logic to try all suitable candidate models across all active providers in a prioritized order.
 - **API Headers**: `X-LLM-Provider` now supports `groq` and `nvidia` in addition to `ollama` and `openrouter`.
-- **CLI Utility**: Updated `ai_cli` help message and provider selection to include the new providers.
+- **CLI Utility**: Updated `ai_cli` help message and added `--version` / `-v` flag.
 
 ## [1.2.0] - 2026-04-12
 

@@ -1,8 +1,8 @@
-ai_txt-system
+ai_txt_system
 Copyright 2026 ZHENG Robert
 
 This product includes software developed by
-ZHENG Robert (robert @hase-zheng.net).
+ZHENG Robert (robert@hase-zheng.net).
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,26 +18,29 @@ limitations under the License.
 
 ---
 
-This product includes software developed by third parties. The following components are bundled with this distribution:
+This product includes software developed by third parties. The following components are bundled with this distribution or used during the build process:
 
-- libcurl 8.10.1
-  License: MIT der libcurl-Distribution (siehe mitgelieferte Lizenzdatei)
+- libcurl (>=8.19)
+  License: MIT/X derivative
   Attribution: This product includes software developed by the curl project.
 
-- nlohmann_json 3.11.3
+- nlohmann_json (>=3.11)
   License: MIT
   Attribution: This product includes software developed by Niels Lohmann.
 
-- crowcpp-crow 1.2.0
-  License: BSD-2-Clause
+- crowcpp-crow (>=1.3)
+  License: BSD-3-Clause
   Attribution: This product includes software developed by the Crow project contributors.
 
-- asio 1.29.0
+- asio (>=1.29)
   License: Boost Software License 1.0
   Attribution: This product includes software developed by the Asio authors.
 
-The full text of each component's license is included in this distribution under
-third_party/<component>/LICENSE or in the corresponding package directory.
+- gh-update-checker (v1.0.9)
+  License: MIT
+  Attribution: This product includes software developed by ZHENG Robert (https://github.com/Zheng-Bote/gh-update-checker).
+
+The full text of each component's license is included in this distribution or in the corresponding package directory.
 Where a NOTICE file or additional attribution was provided by the original
 author, those notices have been preserved.
 

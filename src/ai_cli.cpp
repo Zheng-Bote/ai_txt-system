@@ -17,6 +17,8 @@
  */
 
 #include "llm_provider.hpp"
+#include "rz_config.hpp"
+#include <check_gh-update.hpp>
 #include <iostream>
 #include <print>
 #include <regex>
@@ -34,6 +36,7 @@ void print_usage(std::string_view program_name) {
     std::println(std::cerr, "  --provider <p>   Select LLM provider: 'ollama', 'openrouter', 'groq', or 'nvidia'.");
     std::println(std::cerr, "                   If not specified, failover will use all available.");
     std::println(std::cerr, "  --env <path>     Path to the .env file (default: data/private.env).");
+    std::println(std::cerr, "  --version, -v    Show version information and check for updates.");
     std::println(std::cerr, "  --help, -h       Show this help message.");
     std::println(std::cerr, "");
     std::println(std::cerr, "Prompt:");
@@ -68,6 +71,30 @@ int main(int argc, char** argv) {
         std::string arg = argv[i];
         if ((arg == "--help" || arg == "-h")) {
             print_usage(argv[0]);
+            return 0;
+        } else if ((arg == "--version" || arg == "-v")) {
+            std::println("{} v{}", rz::config::PROJECT_NAME, rz::config::VERSION);
+            std::println("{}", rz::config::PROJECT_DESCRIPTION);
+            std::println("Author: {}", rz::config::AUTHOR);
+            std::println("Homepage: {}", rz::config::PROJECT_HOMEPAGE_URL);
+            std::println("");
+
+            try {
+                auto result = ghupdate::check_github_update(
+                    std::string(rz::config::PROJECT_HOMEPAGE_URL),
+                    std::string(rz::config::VERSION)
+                );
+
+                std::println("Remote version: {}", result.latestVersion);
+
+                if (result.hasUpdate) {
+                    std::println("Update available!");
+                } else {
+                    std::println("You are running the latest version.");
+                }
+            } catch (const std::exception& e) {
+                std::println(std::cerr, "Update check failed: {}", e.what());
+            }
             return 0;
         } else if (arg == "--provider" && i + 1 < argc) {
             std::string p = argv[++i];

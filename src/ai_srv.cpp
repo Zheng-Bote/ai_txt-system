@@ -17,6 +17,8 @@
  */
 
 #include "llm_provider.hpp"
+#include "rz_config.hpp"
+#include <check_gh-update.hpp>
 #include <crow.h>
 #include <print>
 #include <regex>
@@ -107,6 +109,34 @@ int main(int argc, char* argv[]) {
     };
 
     auto manager = create_manager();
+
+    CROW_ROUTE(app, "/system/check-update")
+        .methods(crow::HTTPMethod::GET)([]() {
+            json out;
+            out["current_version"] = rz::config::VERSION;
+            out["project"] = rz::config::PROJECT_NAME;
+
+            try {
+                auto result = ghupdate::check_github_update(
+                    std::string(rz::config::PROJECT_HOMEPAGE_URL),
+                    std::string(rz::config::VERSION)
+                );
+
+                out["status"] = "success";
+                out["remote_version"] = result.latestVersion;
+                out["has_update"] = result.hasUpdate;
+                if (result.hasUpdate) {
+                    out["message"] = "A newer version is available on GitHub.";
+                    out["url"] = std::string(rz::config::PROJECT_HOMEPAGE_URL);
+                } else {
+                    out["message"] = "You are running the latest version.";
+                }
+            } catch (const std::exception& e) {
+                out["status"] = "error";
+                out["message"] = e.what();
+            }
+            return crow::response(out.dump());
+        });
 
     CROW_ROUTE(app, "/api/v1/prompt")
         .methods(crow::HTTPMethod::POST)([&manager](const crow::request& req) {

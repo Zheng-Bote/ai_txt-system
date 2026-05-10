@@ -77,6 +77,7 @@ The CLI tool allows sending prompts directly to configured LLM providers.
 **Options:**
 - `--provider <ollama|openrouter|groq|nvidia>`: Forces the use of a specific provider. If omitted, the system tries all providers in order of their task suitability (failover).
 - `--env <path>`: Specify a custom path to the environment file (default: `data/private.env`).
+- `--version, -v`: Show version information and check for updates on GitHub.
 - `--help, -h`: Show usage information.
 
 **Examples:**
@@ -100,7 +101,9 @@ The microservice provides a REST API on port `18080`.
 ./build/ai_srv --env /path/to/private.env
 ```
 
-**Endpoint:** `POST /api/v1/prompt`
+#### Endpoints
+
+**1. `POST /api/v1/prompt`**
 
 **Request Body (JSON):**
 - `prompt` (string): The text to process.
@@ -115,4 +118,13 @@ curl -X POST http://localhost:18080/api/v1/prompt \
      -H "Content-Type: application/json" \
      -H "X-LLM-Provider: openrouter" \
      -d '{"prompt": "Tell me a joke"}'
+```
+
+**2. `GET /system/check-update`**
+
+Returns version information and checks for updates on GitHub.
+
+**Example:**
+```bash
+curl http://localhost:18080/system/check-update
 ```

@@ -1,6 +1,6 @@
 # ai_txt-system
 
-Consolidated AI text generation system with Ollama and OpenRouter support.
+Consolidated AI text generation system with support for Ollama, OpenRouter, GROQ, and NVIDIA.
 
 ## Documentation Overview
 
@@ -8,24 +8,31 @@ This project provides a consolidated interface for interacting with various LLM 
 - **`ai_cli`**: Command-line interface for simple prompts and provider selection.
 - **`ai_srv`**: Microservice using Crow to provide a REST API for LLM interaction.
 
-The system handles multiple models per provider and includes failover logic to switch between models and providers if errors occur.
+The system features **Task-Based Model Selection**, which automatically detects the intent (e.g., Coding, Translation) and selects the most appropriate model. It also includes comprehensive failover logic to switch between models and providers.
 
 ## Architecture Overview
 
 The system is built on a provider-based architecture:
 - `ILlmProvider`: Interface for all LLM services.
-- `OllamaProvider`: Implementation for Ollama API.
-- `OpenRouterProvider`: Implementation for OpenRouter API.
-- `ProviderManager`: Orchestrates requests, handles preferred provider selection, and implements failover logic.
+- `OllamaProvider`: Implementation for Ollama API (local or remote).
+- `OpenRouterProvider`: Implementation for OpenRouter API (aggregator).
+- `GroqProvider`: Implementation for GROQ API (high-performance).
+- `NvidiaProvider`: Implementation for NVIDIA API (enterprise).
+- `ProviderManager`: Orchestrates requests, detects tasks, scores model candidates, and implements failover logic.
 
 ```mermaid
 graph TD
     A[Client] -->|Prompt| B[ai_cli / ai_srv]
     B --> C[ProviderManager]
-    C --> D[OllamaProvider]
-    C --> E[OpenRouterProvider]
-    D -->|Failover| E
-    E -->|Failover| D
+    C -->|Task Detection| T[Task: Coding/Translation/General]
+    T --> SC[Scoring & Prioritization]
+    SC --> P1[Ollama]
+    SC --> P2[OpenRouter]
+    SC --> P3[Groq]
+    SC --> P4[Nvidia]
+    P1 -->|Failover| P3
+    P3 -->|Failover| P2
+    P2 -->|Failover| P4
 ```
 
 ## Build
@@ -68,17 +75,17 @@ The CLI tool allows sending prompts directly to configured LLM providers.
 ```
 
 **Options:**
-- `--provider <ollama|openrouter>`: Forces the use of a specific provider. If omitted, the system tries all providers in order (failover).
+- `--provider <ollama|openrouter|groq|nvidia>`: Forces the use of a specific provider. If omitted, the system tries all providers in order of their task suitability (failover).
 - `--env <path>`: Specify a custom path to the environment file (default: `data/private.env`).
 - `--help, -h`: Show usage information.
 
 **Examples:**
 ```bash
-# Direct prompt
-./build/ai_cli --provider ollama "What is C++23?"
+# Direct prompt (Task Detection: Coding)
+./build/ai_cli "Erstelle eine C++23 Klasse für einen Buffer"
 
-# Using stdin
-echo "Translate 'Hello' to German" | ./build/ai_cli
+# Force provider
+./build/ai_cli --provider groq "Explain quantum entanglement"
 ```
 
 ### Server (`ai_srv`)
@@ -97,10 +104,10 @@ The microservice provides a REST API on port `18080`.
 
 **Request Body (JSON):**
 - `prompt` (string): The text to process.
-- `provider` (string, optional): 'ollama' or 'openrouter'.
+- `provider` (string, optional): 'ollama', 'openrouter', 'groq', or 'nvidia'.
 
 **Headers:**
-- `X-LLM-Provider`: (optional) 'ollama' or 'openrouter'. Takes precedence over JSON body.
+- `X-LLM-Provider`: (optional) 'ollama', 'openrouter', 'groq', or 'nvidia'. Takes precedence over JSON body.
 
 **Example:**
 ```bash

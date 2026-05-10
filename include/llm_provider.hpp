@@ -35,7 +35,18 @@ using json = nlohmann::json;
 enum class ProviderType {
     Ollama,
     OpenRouter,
+    Groq,
+    Nvidia,
     Any
+};
+
+/**
+ * @brief Enum representing the task type.
+ */
+enum class Task {
+    General,
+    Coding,
+    Translation
 };
 
 /**
@@ -137,6 +148,30 @@ public:
 };
 
 /**
+ * @brief Groq provider implementation.
+ */
+class GroqProvider : public HttpLlmProvider {
+public:
+    using HttpLlmProvider::HttpLlmProvider;
+
+    [[nodiscard]] std::expected<LlmResponse, std::string> send_prompt(const std::string& prompt, const std::string& model) override;
+    [[nodiscard]] ProviderType get_type() const override { return ProviderType::Groq; }
+    [[nodiscard]] std::string get_name() const override { return "Groq"; }
+};
+
+/**
+ * @brief Nvidia provider implementation.
+ */
+class NvidiaProvider : public HttpLlmProvider {
+public:
+    using HttpLlmProvider::HttpLlmProvider;
+
+    [[nodiscard]] std::expected<LlmResponse, std::string> send_prompt(const std::string& prompt, const std::string& model) override;
+    [[nodiscard]] ProviderType get_type() const override { return ProviderType::Nvidia; }
+    [[nodiscard]] std::string get_name() const override { return "Nvidia"; }
+};
+
+/**
  * @brief Manager to handle multiple providers and failover logic.
  */
 class ProviderManager {
@@ -144,13 +179,18 @@ public:
     void add_provider(std::unique_ptr<ILlmProvider> provider);
     
     /**
-     * @brief Requests a prompt completion with failover.
+     * @brief Requests a prompt completion with failover and task detection.
      * 
      * @param prompt The prompt text.
      * @param preferred_provider Optional preferred provider.
      * @return std::expected<LlmResponse, std::string> The response or an error message.
      */
     [[nodiscard]] std::expected<LlmResponse, std::string> request(const std::string& prompt, ProviderType preferred_provider = ProviderType::Any);
+
+    /**
+     * @brief Classifies the prompt into a task.
+     */
+    [[nodiscard]] static Task classify_task(const std::string& prompt);
 
 private:
     std::vector<std::unique_ptr<ILlmProvider>> providers_;

@@ -27,6 +27,12 @@
 
 ---
 
+### `enum class Task `
+
+> Enum representing the task type.
+
+---
+
 ### `struct LlmResponse `
 
 > Structure representing a successful LLM response.
@@ -100,6 +106,18 @@
 
 ---
 
+### `class GroqProvider : public HttpLlmProvider `
+
+> Groq provider implementation.
+
+---
+
+### `class NvidiaProvider : public HttpLlmProvider `
+
+> Nvidia provider implementation.
+
+---
+
 ### `class ProviderManager `
 
 > Manager to handle multiple providers and failover logic.
@@ -108,7 +126,7 @@
 
 ### `[[nodiscard]] std::expected<LlmResponse, std::string> request(const std::string& prompt, ProviderType preferred_provider = ProviderType::Any)`
 
-> Requests a prompt completion with failover.
+> Requests a prompt completion with failover and task detection.
 
 | Parameter | Description |
 | --- | --- |
@@ -116,6 +134,12 @@
 | `preferred_provider` | Optional preferred provider. |
 
 **Returns:** std::expected<LlmResponse, std::string> The response or an error message.
+
+---
+
+### `[[nodiscard]] static Task classify_task(const std::string& prompt)`
+
+> Classifies the prompt into a task.
 
 ---
 

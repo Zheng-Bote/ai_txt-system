@@ -141,70 +141,133 @@ std::expected<LlmResponse, std::string> OpenRouterProvider::send_prompt(const st
     }
 }
 
+std::expected<LlmResponse, std::string> GroqProvider::send_prompt(const std::string& prompt, const std::string& model) {
+    json payload;
+    payload["model"] = model;
+    payload["messages"] = json::array({{{"role", "user"}, {"content", prompt}}});
+    
+    auto r = post_json(payload);
+
+    if (!r.error.empty()) return std::unexpected("Groq HTTP Error: " + r.error);
+    if (r.status != 200) return std::unexpected("Groq HTTP Status: " + std::to_string(r.status));
+
+    try {
+        json resp = json::parse(r.body);
+        auto text = extract_text(resp);
+        if (text) return LlmResponse{*text, model, ProviderType::Groq};
+        return std::unexpected("Groq response missing content");
+    } catch (const std::exception& e) {
+        return std::unexpected("Groq JSON error: " + std::string(e.what()));
+    }
+}
+
+std::expected<LlmResponse, std::string> NvidiaProvider::send_prompt(const std::string& prompt, const std::string& model) {
+    json payload;
+    payload["model"] = model;
+    payload["messages"] = json::array({{{"role", "user"}, {"content", prompt}}});
+    
+    auto r = post_json(payload);
+
+    if (!r.error.empty()) return std::unexpected("Nvidia HTTP Error: " + r.error);
+    if (r.status != 200) return std::unexpected("Nvidia HTTP Status: " + std::to_string(r.status));
+
+    try {
+        json resp = json::parse(r.body);
+        auto text = extract_text(resp);
+        if (text) return LlmResponse{*text, model, ProviderType::Nvidia};
+        return std::unexpected("Nvidia response missing content");
+    } catch (const std::exception& e) {
+        return std::unexpected("Nvidia JSON error: " + std::string(e.what()));
+    }
+}
+
 void ProviderManager::add_provider(std::unique_ptr<ILlmProvider> provider) {
     providers_.push_back(std::move(provider));
 }
 
+Task ProviderManager::classify_task(const std::string& prompt) {
+    std::string p = prompt;
+    std::transform(p.begin(), p.end(), p.begin(), [](unsigned char c){ return std::tolower(c); });
+
+    if (p.find("code") != std::string::npos || p.find("methode") != std::string::npos || 
+        p.find("function") != std::string::npos || p.find("c++") != std::string::npos ||
+        p.find("python") != std::string::npos || p.find("java") != std::string::npos) {
+        return Task::Coding;
+    }
+
+    if (p.find("übersetze") != std::string::npos || p.find("translate") != std::string::npos ||
+        p.find("nach de") != std::string::npos || p.find("to en") != std::string::npos) {
+        return Task::Translation;
+    }
+
+    return Task::General;
+}
+
 std::expected<LlmResponse, std::string> ProviderManager::request(const std::string& prompt, ProviderType preferred_provider) {
-    std::vector<ILlmProvider*> active_providers;
+    Task task = classify_task(prompt);
+    std::string task_str = (task == Task::Coding) ? "Coding" : (task == Task::Translation ? "Translation" : "General");
+    std::println(std::cerr, "[INFO] Detected task: {}", task_str);
+
+    struct ModelCandidate {
+        ILlmProvider* provider;
+        std::string model;
+        int score;
+    };
+
+    std::vector<ModelCandidate> candidates;
+
     for (auto& p : providers_) {
-        if (preferred_provider == ProviderType::Any || p->get_type() == preferred_provider) {
-            active_providers.push_back(p.get());
-        }
-    }
-
-    // If preferred provider not found, and we wanted Any, it means no providers added.
-    // If we wanted specific and not found, we could fallback or error. 
-    // Requirement says: "Wird nichts angegeben, erfolgt die Nutzung beliebig."
-    // If specified and not found, we should probably error or try others? 
-    // Usually, preferred means "use this if available".
-    
-    if (active_providers.empty()) {
-        if (preferred_provider != ProviderType::Any) {
-            // Try all if preferred not found? Or just error. 
-            // Let's error if specifically requested but missing.
-            return std::unexpected("Requested provider not available");
-        }
-        return std::unexpected("No LLM providers configured");
-    }
-
-    std::string errors;
-    for (auto* p : active_providers) {
         for (const auto& model : p->get_models()) {
-            std::println(std::cerr, "[INFO] Trying {} with model: {}", p->get_name(), model);
-            auto res = p->send_prompt(prompt, model);
-            if (res) return res;
-            
-            std::println(std::cerr, "[WARN] {} model {} failed: {}", p->get_name(), model, res.error());
-            if (!errors.empty()) errors += "; ";
-            errors += p->get_name() + "(" + model + "): " + res.error();
-            
-            std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        }
-    }
+            int score = 0;
+            std::string m_lower = model;
+            std::transform(m_lower.begin(), m_lower.end(), m_lower.begin(), [](unsigned char c){ return std::tolower(c); });
 
-    // If preferred provider failed all models, should we try the other provider?
-    // "Sollte ein LLM-Provider ausfallen, wird auf den aderen gewechselt."
-    if (preferred_provider != ProviderType::Any) {
-        std::println(std::cerr, "[INFO] Preferred provider failed, trying others...");
-        for (auto& p : providers_) {
-            if (p->get_type() != preferred_provider) {
-                for (const auto& model : p->get_models()) {
-                    std::println(std::cerr, "[INFO] Trying {} with model: {}", p->get_name(), model);
-                    auto res = p->send_prompt(prompt, model);
-                    if (res) return res;
-                    
-                    std::println(std::cerr, "[WARN] {} model {} failed: {}", p->get_name(), model, res.error());
-                    if (!errors.empty()) errors += "; ";
-                    errors += p->get_name() + "(" + model + "): " + res.error();
-                    
-                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+            // Base score by provider
+            if (p->get_type() == preferred_provider) score += 1000;
+            
+            // Task specific scoring
+            if (task == Task::Coding) {
+                if (m_lower.find("coder") != std::string::npos || m_lower.find("code") != std::string::npos) score += 500;
+                if (m_lower.find("qwen") != std::string::npos || m_lower.find("deepseek") != std::string::npos) score += 200;
+            } else if (task == Task::Translation) {
+                if (m_lower.find("mistral") != std::string::npos || m_lower.find("gemini") != std::string::npos) score += 500;
+            }
+
+            // Provider priority if no preference
+            if (preferred_provider == ProviderType::Any) {
+                switch (p->get_type()) {
+                    case ProviderType::Nvidia: score += 50; break;
+                    case ProviderType::Groq: score += 40; break;
+                    case ProviderType::OpenRouter: score += 30; break;
+                    case ProviderType::Ollama: score += 20; break;
+                    default: break;
                 }
             }
+
+            candidates.push_back({p.get(), model, score});
         }
     }
 
-    return std::unexpected("All providers/models failed: " + errors);
+    if (candidates.empty()) return std::unexpected("No LLM models available");
+
+    std::sort(candidates.begin(), candidates.end(), [](const auto& a, const auto& b) {
+        return a.score > b.score;
+    });
+
+    std::string errors;
+    for (const auto& c : candidates) {
+        std::println(std::cerr, "[INFO] Trying {} with model: {} (Score: {})", c.provider->get_name(), c.model, c.score);
+        auto res = c.provider->send_prompt(prompt, c.model);
+        if (res) return res;
+
+        std::println(std::cerr, "[WARN] {} model {} failed: {}", c.provider->get_name(), c.model, res.error());
+        if (!errors.empty()) errors += "; ";
+        errors += c.provider->get_name() + "(" + c.model + "): " + res.error();
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    }
+
+    return std::unexpected("All candidates failed: " + errors);
 }
 
 std::map<std::string, std::string> load_config(const std::string& env_path) {

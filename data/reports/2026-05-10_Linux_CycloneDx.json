@@ -30,7 +30,7 @@
       "version": "3.12.0"
     },
     {
-      "bom-ref": "pkg:generic/crowcpp-crow@1.2.0",
+      "bom-ref": "pkg:generic/crowcpp-crow@1.3",
       "licenses": [
         {
           "license": {
@@ -39,12 +39,12 @@
         }
       ],
       "name": "crowcpp-crow",
-      "purl": "pkg:generic/crowcpp-crow@1.2.0",
+      "purl": "pkg:generic/crowcpp-crow@1.3",
       "type": "library",
-      "version": "1.2.0"
+      "version": "1.3"
     },
     {
-      "bom-ref": "pkg:generic/asio@1.29.0",
+      "bom-ref": "pkg:generic/asio@1.29",
       "licenses": [
         {
           "license": {
@@ -53,96 +53,26 @@
         }
       ],
       "name": "asio",
-      "purl": "pkg:generic/asio@1.29.0",
+      "purl": "pkg:generic/asio@1.29",
       "type": "library",
-      "version": "1.29.0"
-    },
-    {
-      "bom-ref": "pkg:generic/Crow::Crow@unknown",
-      "licenses": [
-        {
-          "license": {
-            "name": "UNKNOWN"
-          }
-        }
-      ],
-      "name": "Crow::Crow",
-      "purl": "pkg:generic/Crow::Crow@unknown",
-      "type": "library",
-      "version": "unknown"
-    },
-    {
-      "bom-ref": "pkg:generic/libc.so.6@",
-      "licenses": [
-        {
-          "license": {
-            "name": "UNKNOWN"
-          }
-        }
-      ],
-      "name": "libc.so.6",
-      "purl": "pkg:generic/libc.so.6@",
-      "type": "library",
-      "version": ""
-    },
-    {
-      "bom-ref": "pkg:generic/libgcc_s.so.1@",
-      "licenses": [
-        {
-          "license": {
-            "name": "UNKNOWN"
-          }
-        }
-      ],
-      "name": "libgcc_s.so.1",
-      "purl": "pkg:generic/libgcc_s.so.1@",
-      "type": "library",
-      "version": ""
-    },
-    {
-      "bom-ref": "pkg:generic/libm.so.6@",
-      "licenses": [
-        {
-          "license": {
-            "name": "UNKNOWN"
-          }
-        }
-      ],
-      "name": "libm.so.6",
-      "purl": "pkg:generic/libm.so.6@",
-      "type": "library",
-      "version": ""
-    },
-    {
-      "bom-ref": "pkg:generic/libstdc++.so.6@",
-      "licenses": [
-        {
-          "license": {
-            "name": "UNKNOWN"
-          }
-        }
-      ],
-      "name": "libstdc++.so.6",
-      "purl": "pkg:generic/libstdc++.so.6@",
-      "type": "library",
-      "version": ""
+      "version": "1.29"
     }
   ],
   "metadata": {
     "component": {
-      "name": "AI-TxT",
+      "name": "AI cli/Srv Tool",
       "type": "application"
     },
-    "timestamp": "2026-04-12T10:34:43Z",
+    "timestamp": "2026-05-10T11:00:56Z",
     "tools": [
       {
         "name": "depdiscover",
         "vendor": "ZHENG Bote",
-        "version": "1.4.0"
+        "version": "1.5.2"
       }
     ]
   },
-  "serialNumber": "urn:uuid:a2371d82-9aa8-4ba4-a5af-516c2be579c7",
+  "serialNumber": "urn:uuid:037d2573-bc42-4b16-9b1a-a00e64a1d08b",
   "specVersion": "1.4",
   "version": 1,
   "vulnerabilities": [
@@ -157,7 +87,8 @@
       "id": "DEBIAN-CVE-2021-22922",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -175,7 +106,8 @@
       "id": "DEBIAN-CVE-2021-22923",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -193,7 +125,8 @@
       "id": "DEBIAN-CVE-2022-42916",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -211,7 +144,8 @@
       "id": "DEBIAN-CVE-2022-43551",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -229,7 +163,8 @@
       "id": "DEBIAN-CVE-2023-23914",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -247,7 +182,8 @@
       "id": "DEBIAN-CVE-2023-23915",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -265,7 +201,8 @@
       "id": "DEBIAN-CVE-2023-28320",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -283,7 +220,8 @@
       "id": "DEBIAN-CVE-2023-46219",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -301,7 +239,8 @@
       "id": "DEBIAN-CVE-2024-2379",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -319,7 +258,8 @@
       "id": "DEBIAN-CVE-2024-9681",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -337,7 +277,8 @@
       "id": "DEBIAN-CVE-2025-0725",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -355,7 +296,8 @@
       "id": "DEBIAN-CVE-2025-10148",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -373,7 +315,8 @@
       "id": "DEBIAN-CVE-2025-10966",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -391,7 +334,8 @@
       "id": "DEBIAN-CVE-2025-11563",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -409,7 +353,8 @@
       "id": "DEBIAN-CVE-2025-13034",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -427,7 +372,8 @@
       "id": "DEBIAN-CVE-2025-14017",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -445,7 +391,8 @@
       "id": "DEBIAN-CVE-2025-14524",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -463,7 +410,8 @@
       "id": "DEBIAN-CVE-2025-14819",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -481,7 +429,8 @@
       "id": "DEBIAN-CVE-2025-15079",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -499,7 +448,8 @@
       "id": "DEBIAN-CVE-2025-15224",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -517,7 +467,8 @@
       "id": "DEBIAN-CVE-2025-5399",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -535,7 +486,8 @@
       "id": "DEBIAN-CVE-2025-9086",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -553,7 +505,8 @@
       "id": "DEBIAN-CVE-2026-1965",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {
@@ -571,7 +524,8 @@
       "id": "DEBIAN-CVE-2026-3783",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -589,7 +543,8 @@
       "id": "DEBIAN-CVE-2026-3784",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 5.0,
+          "severity": "medium"
         }
       ],
       "source": {
@@ -607,9 +562,101 @@
       "id": "DEBIAN-CVE-2026-3805",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
+      "source": {
+        "name": "OSV.dev"
+      }
+    },
+    {
+      "advisories": [
+        {
+          "url": "https://osv.dev/vulnerability/DEBIAN-CVE-2026-4873"
+        }
+      ],
+      "bom-ref": "pkg:generic/libcurl@8.14.1",
+      "description": "No summary available",
+      "id": "DEBIAN-CVE-2026-4873",
+      "source": {
+        "name": "OSV.dev"
+      }
+    },
+    {
+      "advisories": [
+        {
+          "url": "https://osv.dev/vulnerability/DEBIAN-CVE-2026-5545"
+        }
+      ],
+      "bom-ref": "pkg:generic/libcurl@8.14.1",
+      "description": "No summary available",
+      "id": "DEBIAN-CVE-2026-5545",
+      "source": {
+        "name": "OSV.dev"
+      }
+    },
+    {
+      "advisories": [
+        {
+          "url": "https://osv.dev/vulnerability/DEBIAN-CVE-2026-5773"
+        }
+      ],
+      "bom-ref": "pkg:generic/libcurl@8.14.1",
+      "description": "No summary available",
+      "id": "DEBIAN-CVE-2026-5773",
+      "source": {
+        "name": "OSV.dev"
+      }
+    },
+    {
+      "advisories": [
+        {
+          "url": "https://osv.dev/vulnerability/DEBIAN-CVE-2026-6253"
+        }
+      ],
+      "bom-ref": "pkg:generic/libcurl@8.14.1",
+      "description": "No summary available",
+      "id": "DEBIAN-CVE-2026-6253",
+      "source": {
+        "name": "OSV.dev"
+      }
+    },
+    {
+      "advisories": [
+        {
+          "url": "https://osv.dev/vulnerability/DEBIAN-CVE-2026-6276"
+        }
+      ],
+      "bom-ref": "pkg:generic/libcurl@8.14.1",
+      "description": "No summary available",
+      "id": "DEBIAN-CVE-2026-6276",
+      "source": {
+        "name": "OSV.dev"
+      }
+    },
+    {
+      "advisories": [
+        {
+          "url": "https://osv.dev/vulnerability/DEBIAN-CVE-2026-6429"
+        }
+      ],
+      "bom-ref": "pkg:generic/libcurl@8.14.1",
+      "description": "No summary available",
+      "id": "DEBIAN-CVE-2026-6429",
+      "source": {
+        "name": "OSV.dev"
+      }
+    },
+    {
+      "advisories": [
+        {
+          "url": "https://osv.dev/vulnerability/DEBIAN-CVE-2026-7168"
+        }
+      ],
+      "bom-ref": "pkg:generic/libcurl@8.14.1",
+      "description": "No summary available",
+      "id": "DEBIAN-CVE-2026-7168",
       "source": {
         "name": "OSV.dev"
       }
@@ -620,12 +667,13 @@
           "url": "https://osv.dev/vulnerability/DEBIAN-CVE-2019-25219"
         }
       ],
-      "bom-ref": "pkg:generic/asio@1.29.0",
+      "bom-ref": "pkg:generic/asio@1.29",
       "description": "Asio C++ Library before 1.13.0 lacks a fallback error code in the case of SSL_ERROR_SYSCALL with no associated error information from the SSL libra...",
       "id": "DEBIAN-CVE-2019-25219",
       "ratings": [
         {
-          "severity": "unknown"
+          "score": 7.0,
+          "severity": "high"
         }
       ],
       "source": {

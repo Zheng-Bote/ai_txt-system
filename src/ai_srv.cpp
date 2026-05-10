@@ -78,6 +78,31 @@ int main(int argc, char* argv[]) {
             if (models.empty()) models = {"gpt-4o-mini"};
             manager->add_provider(std::make_unique<OpenRouterProvider>(endpoint, api_key, models));
         }
+
+        // Setup Groq
+        {
+            std::string endpoint = config.contains("GROQ_ENDPOINT") ? config["GROQ_ENDPOINT"] : "https://api.groq.com/openai/v1/chat/completions";
+            // Ensure endpoint has chat/completions if it's just the base v1
+            if (endpoint.ends_with("/v1")) endpoint += "/chat/completions";
+            
+            std::string api_key = config.contains("GROQ_API_KEY") ? config["GROQ_API_KEY"] : "";
+            auto models = collect_models(config, "GROQ_LLM_");
+            if (!models.empty()) {
+                manager->add_provider(std::make_unique<GroqProvider>(endpoint, api_key, models));
+            }
+        }
+
+        // Setup Nvidia
+        {
+            std::string endpoint = config.contains("NVIDIA_ENDPOINT") ? config["NVIDIA_ENDPOINT"] : "https://integrate.api.nvidia.com/v1/chat/completions";
+            if (endpoint.ends_with("/v1")) endpoint += "/chat/completions";
+
+            std::string api_key = config.contains("NVIDIA_API_KEY") ? config["NVIDIA_API_KEY"] : "";
+            auto models = collect_models(config, "NVIDIA_LLM_");
+            if (!models.empty()) {
+                manager->add_provider(std::make_unique<NvidiaProvider>(endpoint, api_key, models));
+            }
+        }
         return manager;
     };
 
@@ -89,10 +114,18 @@ int main(int argc, char* argv[]) {
             std::string prompt;
             ProviderType preferred = ProviderType::Any;
 
+            auto string_to_provider = [](std::string s) {
+                std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c){ return std::tolower(c); });
+                if (s == "ollama") return ProviderType::Ollama;
+                if (s == "openrouter") return ProviderType::OpenRouter;
+                if (s == "groq") return ProviderType::Groq;
+                if (s == "nvidia") return ProviderType::Nvidia;
+                return ProviderType::Any;
+            };
+
             // 1. Get Preferred Provider from Header
             std::string header_p = req.get_header_value("X-LLM-Provider");
-            if (header_p == "ollama") preferred = ProviderType::Ollama;
-            else if (header_p == "openrouter") preferred = ProviderType::OpenRouter;
+            if (!header_p.empty()) preferred = string_to_provider(header_p);
 
             // 2. Parse Body
             if (req_json.is_discarded()) {
@@ -103,9 +136,7 @@ int main(int argc, char* argv[]) {
                 else prompt = req.body;
 
                 if (preferred == ProviderType::Any && req_json.contains("provider")) {
-                    std::string body_p = req_json["provider"].get<std::string>();
-                    if (body_p == "ollama") preferred = ProviderType::Ollama;
-                    else if (body_p == "openrouter") preferred = ProviderType::OpenRouter;
+                    preferred = string_to_provider(req_json["provider"].get<std::string>());
                 }
             }
 
@@ -118,7 +149,16 @@ int main(int argc, char* argv[]) {
                 out["status"] = "success";
                 out["response"] = res->text;
                 out["model"] = res->model;
-                out["provider"] = res->provider == ProviderType::Ollama ? "ollama" : "openrouter";
+                
+                std::string p_name = "unknown";
+                switch (res->provider) {
+                    case ProviderType::Ollama: p_name = "ollama"; break;
+                    case ProviderType::OpenRouter: p_name = "openrouter"; break;
+                    case ProviderType::Groq: p_name = "groq"; break;
+                    case ProviderType::Nvidia: p_name = "nvidia"; break;
+                    default: break;
+                }
+                out["provider"] = p_name;
                 return crow::response(out.dump());
             } else {
                 json err;

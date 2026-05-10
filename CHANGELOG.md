@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-05-10
+
+### Added
+- **Task-Based Model Selection**: The system now automatically classifies prompts into tasks (`Coding`, `Translation`, `General`) and prioritizes models optimized for those tasks.
+- **New LLM Providers**: Added support for **NVIDIA** and **GROQ** providers, including specialized model scoring and failover integration.
+- **Intelligent Scoring**: Introduced a scoring mechanism in `ProviderManager` to rank model candidates based on task relevance, provider priority, and user preference.
+
+### Changed
+- **Enhanced Failover**: Refactored the request logic to try all suitable candidate models across all active providers in a prioritized order.
+- **API Headers**: `X-LLM-Provider` now supports `groq` and `nvidia` in addition to `ollama` and `openrouter`.
+- **CLI Utility**: Updated `ai_cli` help message and provider selection to include the new providers.
+
 ## [1.2.0] - 2026-04-12
 
 ### Added

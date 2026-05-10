@@ -7,8 +7,8 @@
  *
  * @file ai_cli.cpp
  * @brief Consolidated AI CLI implementation
- * @version 1.1.0
- * @date 2026-04-07
+ * @version 1.2.0
+ * @date 2026-05-10
  *
  * @author ZHENG Robert (robert@hase-zheng.net)
  * @copyright Copyright (c) 2026 ZHENG Robert
@@ -31,7 +31,7 @@ void print_usage(std::string_view program_name) {
     std::println(std::cerr, "Usage: {} [OPTIONS] <PROMPT>", program_name);
     std::println(std::cerr, "");
     std::println(std::cerr, "Options:");
-    std::println(std::cerr, "  --provider <p>   Select LLM provider: 'ollama' or 'openrouter'.");
+    std::println(std::cerr, "  --provider <p>   Select LLM provider: 'ollama', 'openrouter', 'groq', or 'nvidia'.");
     std::println(std::cerr, "                   If not specified, failover will use all available.");
     std::println(std::cerr, "  --env <path>     Path to the .env file (default: data/private.env).");
     std::println(std::cerr, "  --help, -h       Show this help message.");
@@ -71,8 +71,11 @@ int main(int argc, char** argv) {
             return 0;
         } else if (arg == "--provider" && i + 1 < argc) {
             std::string p = argv[++i];
+            std::transform(p.begin(), p.end(), p.begin(), [](unsigned char c){ return std::tolower(c); });
             if (p == "ollama") preferred = ProviderType::Ollama;
             else if (p == "openrouter") preferred = ProviderType::OpenRouter;
+            else if (p == "groq") preferred = ProviderType::Groq;
+            else if (p == "nvidia") preferred = ProviderType::Nvidia;
             else {
                 std::println(std::cerr, "Error: Unknown provider '{}'", p);
                 return 1;
@@ -116,6 +119,28 @@ int main(int argc, char** argv) {
         auto models = collect_models(config, "OPENROUTER_LLM_");
         if (models.empty()) models = {"gpt-4o-mini"};
         manager.add_provider(std::make_unique<OpenRouterProvider>(endpoint, api_key, models));
+    }
+
+    // Setup Groq
+    {
+        std::string endpoint = config.contains("GROQ_ENDPOINT") ? config["GROQ_ENDPOINT"] : "https://api.groq.com/openai/v1/chat/completions";
+        if (endpoint.ends_with("/v1")) endpoint += "/chat/completions";
+        std::string api_key = config.contains("GROQ_API_KEY") ? config["GROQ_API_KEY"] : "";
+        auto models = collect_models(config, "GROQ_LLM_");
+        if (!models.empty()) {
+            manager.add_provider(std::make_unique<GroqProvider>(endpoint, api_key, models));
+        }
+    }
+
+    // Setup Nvidia
+    {
+        std::string endpoint = config.contains("NVIDIA_ENDPOINT") ? config["NVIDIA_ENDPOINT"] : "https://integrate.api.nvidia.com/v1/chat/completions";
+        if (endpoint.ends_with("/v1")) endpoint += "/chat/completions";
+        std::string api_key = config.contains("NVIDIA_API_KEY") ? config["NVIDIA_API_KEY"] : "";
+        auto models = collect_models(config, "NVIDIA_LLM_");
+        if (!models.empty()) {
+            manager.add_provider(std::make_unique<NvidiaProvider>(endpoint, api_key, models));
+        }
     }
 
     auto res = manager.request(prompt, preferred);
